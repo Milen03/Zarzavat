@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->timestamps();
-
+            
+            
         });
     }
 
