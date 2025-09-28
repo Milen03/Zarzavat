@@ -10,7 +10,7 @@
             <p class="text-gray-700 mb-4">{{ $products->description }}</p>
             <p class="text-xl font-semibold">{{ number_format($products->price, 2) }} лв/кг</p>
             
-            <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-4">
+            <form action="{{ route('cart.add', $products->id) }}" method="POST" class="mt-4">
                 @csrf
                 <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Добави в количката</button>
             </form>

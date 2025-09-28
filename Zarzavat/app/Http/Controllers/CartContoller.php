@@ -32,7 +32,8 @@ class CartContoller extends Controller
 
         session()->put('cart',$cart);
         
-        return redirect()->route('cart.index')->wiht('success','Продуктът е добавен в количката!');
+        return redirect()->route('cart.index')->with('success', 'Продуктът е добавен в количката!');
+
 
     }
 
