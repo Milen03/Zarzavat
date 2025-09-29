@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders',function (Blueprint $table){
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('total_price',8,2);
-            $table->string('address');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id(); // primary key
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('email');
             $table->string('phone');
+            $table->text('address');
+            $table->decimal('total_price', 10, 2);
             $table->timestamps();
-            
-            
         });
     }
 

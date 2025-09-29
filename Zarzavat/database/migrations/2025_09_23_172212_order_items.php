@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_items',function(Blueprint $table){
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade'); //Връзка с таблицата order
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');//Връзка с таблицата product
             $table->float('quantity'); // кг или брой
             $table->decimal('price',8,2); // price for items
             $table->timestamps();

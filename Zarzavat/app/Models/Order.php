@@ -8,11 +8,12 @@ class Order extends Model
 {
     
     protected $fillable = [
-        'user_id',
-        'status',
+       'user_id',
         'total_price',
         'address',
         'phone',
+        'name',
+        'email',
     ];
 
     //Преднадлеци на User
@@ -24,7 +25,7 @@ class Order extends Model
 
     public function items(){
 
-        return $this-> hasMany(OrederItem::class);
+        return $this-> hasMany(OrderItem::class);
     }
 
 }
