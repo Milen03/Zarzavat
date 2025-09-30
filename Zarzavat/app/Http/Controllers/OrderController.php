@@ -6,6 +6,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class OrderController extends Controller
 {
     public function checkout(){
@@ -40,7 +43,7 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-    'user_id' => auth()->id(),
+    'user_id' => Auth::id(),
     'name' => $request->name,
     'email' => $request->email,
     'phone' => $request->phone,
@@ -49,7 +52,7 @@ class OrderController extends Controller
 
 ]);
 
-$orderId = $order->id; // вече ще работи
+
         foreach ($cart as $id => $item) {
             OrderItem::create([
                 'order_id' => $order->id,
