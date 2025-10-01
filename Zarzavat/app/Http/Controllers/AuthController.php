@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home');
+        return redirect()->route('products.index');
 
     }
 
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
          if (Auth::attempt($credentials)) {      //<--проверява в базата дали има потребител с такъв имейл.
             $request->session()->regenerate();  //<--сменя сесията (session ID) при успешен login
-            return redirect()->route('home');
+            return redirect()->route('products.index');
         }
 
         return back()->withErrors([
@@ -63,6 +63,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()->route('products.index');
     }
 }

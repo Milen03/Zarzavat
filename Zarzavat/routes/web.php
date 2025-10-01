@@ -15,7 +15,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/cart' , [CartContoller::class,'index'])->name('cart.index');
