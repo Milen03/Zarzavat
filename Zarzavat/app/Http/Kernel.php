@@ -26,13 +26,21 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:api',
+            // В Laravel 12 трябва да използваме друг формат за throttle
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-        'admin' => \App\Http\Middleware\AdminMiddleware::class, // нашият middleware
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

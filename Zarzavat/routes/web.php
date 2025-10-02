@@ -7,8 +7,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Admin\AdminContoller;
-use App\Http\Controllers\ProductController as AdminProductController;
-use App\Http\Controllers\OrderController as AdminOrderController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 
 //Auth
@@ -21,9 +22,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Admin
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminContoller::class, 'index'])->name('dashboard');
-
+    
     // Продукти
     Route::resource('products', AdminProductController::class);
 

@@ -20,11 +20,11 @@
                 @auth
                     <span class="text-gray-700">Здравей, {{ auth()->user()->name }}</span>
 
-                    {{-- @if(auth()->user()->role === 'admin')
+                    @if(auth()->user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 font-semibold">
                             Админ панел
                         </a>
-                    @endif --}}
+                    @endif
 
                     <!-- Logout -->
                     <form action="{{ route('logout') }}" method="POST" class="inline">
