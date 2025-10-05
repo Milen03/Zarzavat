@@ -14,7 +14,7 @@ class OrderController extends Controller
     public function checkout(){
         $cart = session()->get('cart',[]);
         if(!$cart || count($cart)==0){
-            return redirect()->route('cart.index')->with('error','Колияката е празна');
+            return redirect()->route('cart.index')->with('error','Количката е празна');
         }
 
         return view('checkout.index', compact('cart'));

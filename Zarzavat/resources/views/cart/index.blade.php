@@ -49,7 +49,7 @@
 
         <div class="mt-4 text-right">
             <h2 class="text-xl font-bold">Общо: {{ $total }} лв.</h2>
-            <a href="#" class="bg-green-600 text-white px-4 py-2 rounded">Към поръчка</a>
+          <a href="{{ route('checkout') }}" class="bg-green-600 text-white px-4 py-2 rounded">Към поръчка</a>
         </div>
     @else
         <p>Количката е празна.</p>

@@ -29,7 +29,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::resource('products', AdminProductController::class);
 
     // Поръчки
-    Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+    Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update', 'destroy']);
 });
 
 

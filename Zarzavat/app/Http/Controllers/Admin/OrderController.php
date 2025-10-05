@@ -6,18 +6,18 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller{
-    //all oreder
+    //all orders
 public function index(){
 
-    $orders = Order::with('user','orederItems.product')->get();
+    $orders = Order::with('user','items.product')->get();
     return view('admin.orders.index',compact('orders'));
 }
 
 //details for current order
 public function show(Order $order){
 
-    $order->load('user','orderItems.product');
-    return view('admin.ordes.show',compact('order'));
+    $order->load('user','items.product');
+    return view('admin.orders.show',compact('order'));
 }
 
 
@@ -31,6 +31,12 @@ public function update(Request $request,Order $order){
         return redirect()->route('admin.orders.index')->with('success', 'Статусът е обновен.');
 
 }
+
+ public function destroy(Order $order)
+    {
+        $order->delete();
+        return redirect()->route('admin.orders.index')->with('success', 'Поръчката е изтрита.');
+    }
 
 
 
