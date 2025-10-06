@@ -1,24 +1,27 @@
+
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="bg" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зеленчуков магазин</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="h-full m-0 p-0 flex flex-col bg-gray-100 text-gray-900">
 
-    <!-- HEADER -->
-    <nav class="bg-white shadow mb-6">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- HEADER - разширен на абсолютно цялата ширина -->
+    <nav class="w-full bg-white shadow">
+        <div class="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Лого -->
             <a href="{{ route('products.index') }}" class="text-xl font-bold text-green-600">Зеленчуци</a>
-
-            <div class="flex space-x-4">
+            
+            <!-- Навигационни линкове -->
+            <div class="flex space-x-4 items-center">
                 <a href="{{ route('products.index') }}" class="hover:text-green-600">Продукти</a>
                 <a href="{{ route('cart.index') }}" class="hover:text-green-600">Количка</a>
 
                 @auth
-                    <span class="text-gray-700">Здравей, {{ auth()->user()->name }}</span>
+                    <span class="text-gray-700 hidden sm:inline">Здравей, {{ auth()->user()->name }}</span>
 
                     @if(auth()->user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 font-semibold">
@@ -34,17 +37,24 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login.form') }}" class="hover:text-green-600">Вход</a>
-                    <a href="{{ route('register.form') }}" class="hover:text-green-600">Регистрация</a>
+                    <a href="{{ route('login') }}" class="hover:text-green-600">Вход</a>
+                    <a href="{{ route('register') }}" class="hover:text-green-600">Регистрация</a>
                 @endauth
             </div>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4">
+    <!-- MAIN CONTENT - без контейнер, заема цялата ширина -->
+    <main class="flex-grow w-full">
         @yield('content')
     </main>
+    
+    <!-- FOOTER - без margin отдолу -->
+    <footer class="w-full bg-white shadow py-4">
+        <div class="w-full px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+            <p>© {{ date('Y') }} Зеленчуков магазин. Всички права запазени.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
