@@ -58,7 +58,7 @@ class ProductController extends Controller{
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'required|exists:categories,id',
         ]);
 
