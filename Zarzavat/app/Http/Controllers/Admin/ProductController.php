@@ -28,11 +28,19 @@ class ProductController extends Controller{
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
              'category_id' => 'required|exists:categories,id',
         ]);
 
-        Product::create($request->all());
+        $data = $request->except('image');
+    
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+        $data['image'] = $imagePath;
+    }
+
+        Product::create($data);
 
         return redirect()->route('admin.products.index')->with('success', 'Продуктът е добавен.');
     }
@@ -54,7 +62,16 @@ class ProductController extends Controller{
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $product->update($request->all());
+        $data = $request->except('image');
+    
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+        $data['image'] = $imagePath;
+    }
+
+
+        $product->update($data);
 
         return redirect()->route('admin.products.index')->with('success', 'Продуктът е обновен.');
     }
