@@ -9,7 +9,7 @@
 </head>
 <body class="h-full m-0 p-0 flex flex-col bg-gray-100 text-gray-900">
 
-    <!-- HEADER - разширен на абсолютно цялата ширина -->
+    
     <nav class="w-full bg-white shadow">
         <div class="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <!-- Лого -->
@@ -44,12 +44,12 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT - без контейнер, заема цялата ширина -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow w-full">
         @yield('content')
     </main>
     
-    <!-- FOOTER - без margin отдолу -->
+    <!-- FOOTER -->
     <footer class="w-full bg-white shadow py-4">
         <div class="w-full px-4 sm:px-6 lg:px-8 text-center text-gray-600">
             <p>© {{ date('Y') }} Зеленчуков магазин. Всички права запазени.</p>
