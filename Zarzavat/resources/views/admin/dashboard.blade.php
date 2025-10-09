@@ -88,14 +88,14 @@
                         <span class="text-gray-600 ml-1">регистрирани</span>
                     </div>
 
-                    <div class="border-t border-gray-100 pt-4">
+                    {{-- <div class="border-t border-gray-100 pt-4">
                         <a href="#" class="flex items-center justify-between text-blue-600 font-medium hover:text-blue-800 transition-colors">
                             <span>Управление на потребители</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
