@@ -47,3 +47,7 @@ Route::post('/cart/remove/{id}', [CartContoller::class, 'remove'])->name('cart.r
 //checkout
 Route::get('/checkout',[OrderController::class , 'checkout'])->name('checkout');
 Route::post('/checkout' , [OrderController::class , 'placeOrder'])->name('checkout.place');
+
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
