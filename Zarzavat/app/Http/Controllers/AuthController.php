@@ -9,17 +9,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Показва формата за регистрация
-     */
+  
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    /**
-     * Обработва регистрацията на нов потребител
-     */
+
     public function register(Request $request)
     {
         $request->validate([
@@ -50,17 +46,13 @@ class AuthController extends Controller
         return redirect()->route('products.index');
     }
 
-    /**
-     * Показва формата за вход
-     */
+ 
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    /**
-     * Обработва влизането на потребител
-     */
+   
     public function login(Request $request)
     {
         $credentials = $request->validate([

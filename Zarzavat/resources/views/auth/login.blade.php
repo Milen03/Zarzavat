@@ -59,10 +59,10 @@
                         </div>
                     </div>
                     
-                    {{-- <div class="mb-6 flex items-center">
+                    <div class="mb-6 flex items-center">
                         <input type="checkbox" name="remember" id="remember" class="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded">
                         <label for="remember" class="ml-2 block text-sm text-gray-700">Запомни ме</label>
-                    </div> --}}
+                    </div>
                     
                     <button type="submit" class="w-full flex justify-center items-center bg-gradient-to-r from-emerald-500 to-green-600 text-white py-3 rounded-lg font-medium hover:from-emerald-600 hover:to-green-700 transition duration-200 shadow-md">
                         <span>Вход</span>
