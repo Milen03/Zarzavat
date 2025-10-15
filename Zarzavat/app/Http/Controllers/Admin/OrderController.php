@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller{
     //all orders
-public function index(){
-
-    $orders = Order::with('user','items.product')->get();
-    return view('admin.orders.index',compact('orders'));
-}
+ public function index(Request $request)
+    {
+        $query = Order::latest();
+        
+        
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        
+        $orders = $query->get();
+        return view('admin.orders.index', compact('orders'));
+    }
 
 //details for current order
 public function show(Order $order){
@@ -21,16 +28,19 @@ public function show(Order $order){
 }
 
 
-public function update(Request $request,Order $order){
- $request->validate([
-            'status' => 'required|in:pending,processing,delivered',
+public function updateStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,processing,completed,cancelled',
         ]);
 
-        $order->update(['status' => $request->status]);
+        $order->update([
+            'status' => $request->status
+        ]);
 
-        return redirect()->route('admin.orders.index')->with('success', 'Статусът е обновен.');
+        return redirect()->back()->with('success', 'Статусът на поръчката е обновен успешно!');
+    }
 
-}
 
  public function destroy(Order $order)
     {
