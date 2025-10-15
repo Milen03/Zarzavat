@@ -13,7 +13,7 @@ class CartContoller extends Controller
     }
 
     //add 
-    public function add(Request $request,$id){
+    public function add($id){
         $product = Product::findOrFail($id);
 
         $cart = session()->get('cart',[]);

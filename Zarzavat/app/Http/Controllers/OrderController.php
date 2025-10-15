@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,15 @@ class OrderController extends Controller
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
+         $product = Product::find($id);
+        if ($product){
+            $product->stock -= $item['quantity'];
+            $product->save();
         }
+
+        }
+
+    
 
 
         session()->forget('cart');
