@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');            
             $table->text('address');
             $table->decimal('total_price', 10, 2);
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('order_items');
     }
 };
