@@ -15,6 +15,8 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
+use App\Http\Controllers\ProfileController;
+
 
 //Auth
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
@@ -44,7 +46,6 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
-
 //Cart
 Route::get('/cart' , [CartContoller::class,'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartContoller::class, 'add'])->name('cart.add');
@@ -55,6 +56,13 @@ Route::post('/cart/remove/{id}', [CartContoller::class, 'remove'])->name('cart.r
 Route::get('/checkout',[OrderController::class , 'checkout'])->name('checkout');
 Route::post('/checkout' , [OrderController::class , 'placeOrder'])->name('checkout.place');
 
+// Маршрути за профил/поръчки (работят и за логнати и за гости)
+Route::prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/orders/{orderId}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/order-items/{itemId}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/order-items/{itemId}', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
