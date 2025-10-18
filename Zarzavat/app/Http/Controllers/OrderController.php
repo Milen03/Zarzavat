@@ -65,11 +65,15 @@ class OrderController extends Controller
         if ($product){
             $product->stock -= $item['quantity'];
             $product->save();
+          }
         }
 
+    // За гости - запазване на поръчката в сесията
+        if (!Auth::check()) {
+            $guestOrders = session()->get('guest_orders', []);
+            $guestOrders[$order->id] = true; // Просто маркираме, че поръчката принадлежи на госта
+            session()->put('guest_orders', $guestOrders);
         }
-
-    
 
 
         session()->forget('cart');
