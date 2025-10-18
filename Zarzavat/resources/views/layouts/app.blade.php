@@ -19,6 +19,9 @@
             <div class="flex space-x-4 items-center">
                 <a href="{{ route('products.index') }}" class="hover:text-green-600">Продукти</a>
                 <a href="{{ route('cart.index') }}" class="hover:text-green-600">Количка</a>
+                <a href="{{ route('profile.index') }}" class="hover:text-green-600">
+                       {{ Auth::check() ? 'Моите поръчки' : 'Проследи поръчка' }}
+                 </a>
 
                 @auth
                     <span class="text-gray-700 hidden sm:inline">Здравей, {{ auth()->user()->name }}</span>
