@@ -2,105 +2,134 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; 
 use App\Models\Order;
-use App\Models\User;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-
 
 class ProfileController extends Controller
 {
-    
-    public function index(){
+    public function index()
+    {
         if (Auth::check()) {
-            $user = Auth::user();
-        
-        // Алтернативен подход
-        $orders = Order::where('user_id', $user->id)
-                  ->with('items.product')
-                  ->get();
-        
+            // За логнати потребители
+            $orders = Order::where('user_id', Auth::id())
+                         ->orderBy('created_at', 'desc')
+                         ->get();
         } else {
-            // For guests, get orders from session
+            // За гости - взимаме поръчките от сесията
             $guestOrders = session()->get('guest_orders', []);
             
-            if (!empty($guestOrders)) {
+            if (empty($guestOrders)) {
+                $orders = collect(); // празна колекция
+            } else {
                 $orderIds = array_keys($guestOrders);
                 $orders = Order::whereIn('id', $orderIds)
-                         ->with('items.product')
-                         ->get();
-            } else {
-                $orders = collect(); // empty collection
+                             ->orderBy('created_at', 'desc')
+                             ->get();
             }
         }
         
         return view('profile.index', compact('orders'));
     }
     
-    public function edit(Order $order)
+    public function edit($orderId) // променено за да работи с ID вместо с Order модел
     {
         if (Auth::check()) {
-            // For logged-in users - check via Gate
-            if (Gate::denies('view', $order)) {
-                abort(403);
-            }
+            // За регистрирани потребители
+            $order = Order::where('id', $orderId)
+                        ->where('user_id', Auth::id())
+                        ->with('items.product')
+                        ->first();
         } else {
-            // For guests - check if the order is in the session
+            // За гости
             $guestOrders = session()->get('guest_orders', []);
-            if (!isset($guestOrders[$order->id])) {
-                abort(403);
+            
+            if (isset($guestOrders[$orderId])) {
+                $order = Order::with('items.product')
+                            ->find($orderId);
+            } else {
+                $order = null;
             }
         }
+
+        if (!$order) {
+            return redirect()->route('profile.index')
+                           ->with('error', 'Поръчката не е намерена или нямате достъп до нея');
+        }
         
-        $order->load('items.product');
         return view('profile.edit', compact('order'));
     }
 
-    public function update(Request $request, OrderItem $item)
+    public function update(Request $request, $itemId) // променено за да работи с ID вместо с OrderItem модел
     {
         $request->validate([
             'quantity' => 'required|numeric|min:1'
         ]);
 
-        // Check access to this OrderItem
+        $item = OrderItem::findOrFail($itemId);
+        $order = $item->order;
+        
+        // Проверка за достъп
         if (Auth::check()) {
-            $order = $item->order;
-            if (Gate::denies('view', $order)) {
-                abort(403);
-            }
+            $hasAccess = $order->user_id === Auth::id();
         } else {
             $guestOrders = session()->get('guest_orders', []);
-            $order = $item->order;
-            if (!isset($guestOrders[$order->id])) {
-                abort(403);
-            }
+            $hasAccess = isset($guestOrders[$order->id]);
         }
 
-        $item->update(['quantity' => $request->quantity]);
-        return redirect()->back()->with('success', 'Артикулът е обновен успешно!');
+        if (!$hasAccess) {
+            return redirect()->route('profile.index')
+                           ->with('error', 'Нямате достъп до този елемент');
+        }
+
+        // Обновяване на количеството
+        $item->quantity = $request->quantity;
+        $item->save();
+        
+        // Преизчисляване на общата цена
+        $totalPrice = $order->items()->sum(DB::raw('price * quantity'));
+        $order->total_price = $totalPrice;
+        $order->save();
+        
+        return redirect()->route('profile.edit', $order->id)
+                       ->with('success', 'Количеството е обновено успешно');
     }
 
-    public function destroy(OrderItem $item)
+    public function destroy($itemId) // променено за да работи с ID вместо с OrderItem модел
     {
-        // Проверка за достъп до този OrderItem
+        $item = OrderItem::findOrFail($itemId);
+        $order = $item->order;
+        
+        // Проверка за достъп
         if (Auth::check()) {
-            $order = $item->order;
-            if (Gate::denies('view', $order)) {
-                abort(403);
-            }
+            $hasAccess = $order->user_id === Auth::id();
         } else {
             $guestOrders = session()->get('guest_orders', []);
-            $order = $item->order;
-            if (!isset($guestOrders[$order->id])) {
-                abort(403);
-            }
+            $hasAccess = isset($guestOrders[$order->id]);
+        }
+
+        if (!$hasAccess) {
+            return redirect()->route('profile.index')
+                           ->with('error', 'Нямате достъп до този елемент');
+        }
+
+        // Изтриване на елемента
+        $item->delete();
+        
+        // Преизчисляване на общата цена
+        $totalPrice = $order->items()->sum(DB::raw('price * quantity'));
+        $order->total_price = $totalPrice;
+        $order->save();
+        
+        // Ако няма повече елементи, можем да пренасочим към списъка с поръчки
+        if ($order->items()->count() === 0) {
+            $order->delete(); // Опционално - изтриване на празната поръчка
+            return redirect()->route('profile.index')
+                           ->with('success', 'Поръчката е изтрита, защото не съдържаше продукти');
         }
         
-        $item->delete();
-        return redirect()->back()->with('success', 'Артикулът е изтрит успешно!');
+        return redirect()->route('profile.edit', $order->id)
+                       ->with('success', 'Продуктът е изтрит от поръчката');
     }
-    
-   
-    
 }
