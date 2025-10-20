@@ -116,7 +116,21 @@
             </table>
         </div>
         
+    
+        
         <div class="mt-6 text-center">
+            <div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-medium">Продукти в поръчката</h3>
+    
+    @if($order->status == 'pending')
+        <a href="{{ route('profile.add-item.form', $order->id) }}" class="bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Добави продукт
+        </a>
+    @endif
+            </div>
             <a href="{{ route('profile.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">
                 Назад към моите поръчки
             </a>
