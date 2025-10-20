@@ -15,7 +15,8 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Profile\OrderItemController;
 
 
 //Auth
@@ -56,12 +57,17 @@ Route::post('/cart/remove/{id}', [CartContoller::class, 'remove'])->name('cart.r
 Route::get('/checkout',[OrderController::class , 'checkout'])->name('checkout');
 Route::post('/checkout' , [OrderController::class , 'placeOrder'])->name('checkout.place');
 
-// Маршрути за профил/поръчки (работят и за логнати и за гости)
+//Profile
 Route::prefix('profile')->group(function () {
+    // Основни маршрути за профил
     Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/orders/{orderId}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/order-items/{itemId}', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/order-items/{itemId}', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Маршрути за артикули в поръчката
+    Route::patch('/order-items/{itemId}', [OrderItemController::class, 'update'])->name('profile.update');
+    Route::delete('/order-items/{itemId}', [OrderItemController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/orders/{orderId}/add-item', [OrderItemController::class, 'create'])->name('profile.add-item.form');
+    Route::post('/orders/{orderId}/add-item', [OrderItemController::class, 'store'])->name('profile.add-item');
 });
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
