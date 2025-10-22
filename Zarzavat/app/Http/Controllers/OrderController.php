@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -22,63 +22,52 @@ class OrderController extends Controller
     }
 
 
-    public function placeOrder(Request $request){
+    public function placeOrder(OrderRequest $request){
 
-        $cart = session()->get('cart',[]);
-        if(!$cart || count($cart)==0){
-            return redirect()->route('cart.index');
-        }
+        $cart = session()->get('cart', []);
+    if (!$cart || count($cart) == 0) {
+        return redirect()->route('cart.index');
+    }
 
+    $validated = $request->validated(); 
 
-        $request->validate([               //Трябва да се изнесе 
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'address' => 'required|string',
+    $total = 0;
+    foreach ($cart as $item) {
+        $total += $item['price'] * $item['quantity'];
+    }
+
+    $order = Order::create([
+        'user_id' => Auth::id(),
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'phone' => $validated['phone'],
+        'address' => $validated['address'],
+        'total_price' => $total,
+    ]);
+
+    foreach ($cart as $id => $item) {
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $id,
+            'quantity' => $item['quantity'],
+            'price' => $item['price'],
         ]);
 
-
-        $total = 0;
-        foreach($cart as $item){
-            $total += $item['price'] * $item['quantity'];
-        }
-
-        $order = Order::create([
-    'user_id' => Auth::id(),
-    'name' => $request->name,
-    'email' => $request->email,
-    'phone' => $request->phone,
-    'address' => $request->address,
-    'total_price' => $total,
-
-]);
-
-
-        foreach ($cart as $id => $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $id,
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            ]);
-         $product = Product::find($id);
-        if ($product){
+        $product = Product::find($id);
+        if ($product) {
             $product->stock -= $item['quantity'];
             $product->save();
-          }
         }
+    }
 
-    // За гости - запазване на поръчката в сесията
-        if (!Auth::check()) {
-            $guestOrders = session()->get('guest_orders', []);
-            $guestOrders[$order->id] = true; // Просто маркираме, че поръчката принадлежи на госта
-            session()->put('guest_orders', $guestOrders);
-        }
+    if (!Auth::check()) {
+        $guestOrders = session()->get('guest_orders', []);
+        $guestOrders[$order->id] = true;
+        session()->put('guest_orders', $guestOrders);
+    }
 
+    session()->forget('cart');
 
-        session()->forget('cart');
-
-        return redirect()->route('cart.index')->with('success', 'Поръчката е успешно направена!');
-
+    return redirect()->route('cart.index')->with('success', 'Поръчката е успешно направена!');
     }
 }
