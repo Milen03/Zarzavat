@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Controllers\Controller;
 
 
@@ -18,10 +19,10 @@ class RegisterController extends Controller
     }
 
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $data = $request->validate();
-        
+        $data = $request->validated();
+
         $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
