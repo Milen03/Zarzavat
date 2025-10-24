@@ -69,8 +69,9 @@
 
     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Запази</button>
 </form>
-
+<script src="{{ asset('js/validation/orderValidation.js') }}"></script>
 <script>
+
 function previewImage(input) {
     const preview = document.getElementById('image-preview');
     const previewImg = document.getElementById('preview-img');

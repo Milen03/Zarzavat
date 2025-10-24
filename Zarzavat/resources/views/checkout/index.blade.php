@@ -142,4 +142,6 @@
         </div>
     </div>
 </div>
+@section('scripts')
+<script src="{{ asset('js/validation/orderValidation.js') }}"></script>
 @endsection
