@@ -85,6 +85,7 @@
         </div>
     </div>
 </div>
+@endsection
 @section('scripts')
 <script src="{{ asset('js/validation/loginValidation.js') }}"></script>
 @endsection
