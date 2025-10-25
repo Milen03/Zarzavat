@@ -24,7 +24,7 @@
                 <h3 class="text-lg font-medium mb-2">Информация за поръчката</h3>
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                     <p class="mb-2"><span class="font-medium">Номер:</span> {{ $order->id }}</p>
-                    <p class="mb-2"><span class="font-medium">Дата:</span> {{ $order->created_at->format('d.m.Y H:i') }}</p>
+                    <p class="mb-2"><span class="font-medium">Дата:</span> {{ $order->created_at->setTimezone('Europe/Sofia')->format('d.m.Y H:i') }}</p>
                     <p class="mb-2"><span class="font-medium">Статус:</span> 
                         @if($order->status == 'pending')
                             <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">В очакване</span>
