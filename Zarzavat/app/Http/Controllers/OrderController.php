@@ -10,6 +10,7 @@ use App\Http\Requests\OrderRequest;
 use Illuminate\Support\Facades\Auth;
 
 
+
 class OrderController extends Controller
 {
     public function checkout(){

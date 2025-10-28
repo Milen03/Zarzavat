@@ -123,7 +123,9 @@
         @endif
     </div>
 </div>
+@endsection
 
+@section('scripts')
 <script>
     function decreaseQuantity(id) {
         const input = document.getElementById('quantity-' + id);
