@@ -68,7 +68,7 @@
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-6" role="alert">
                 <h4 class="font-medium mb-2">Важна информация за гости</h4>
                 <p>Като гост, вашите поръчки се запазват само в този браузър.</p>
-                <p>За постоянен достъп до вашите поръчки, препоръчваме да се <a href="{{ route('register') }}" class="text-blue-600 underline">регистрирате</a>.</p>
+                <p>За постоянен достъп до вашите поръчки, препоръчваме да се <a href="{{ route('register.form') }}" class="text-blue-600 underline">регистрирате</a>.</p>
             </div>
         @endif
     </div>
