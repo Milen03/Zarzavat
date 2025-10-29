@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id'
         ];
     }
 
@@ -39,6 +40,8 @@ class ProductRequest extends FormRequest
             'name.required' => 'Името на продукта е задължително.',
             'price.required' => 'Цената е задължителна.',
             'image.image' => 'Каченият файл трябва да е изображение.',
+            'category_id.required' => 'Категорията е задължителна.',
+            'category_id.exists'   => 'Невалидна категория.',
         ];
     }
 }

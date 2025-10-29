@@ -3,8 +3,6 @@
 namespace App\Service;
 
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
