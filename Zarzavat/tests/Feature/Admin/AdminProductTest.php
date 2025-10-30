@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Admin;
 
 use App\Models\Category;
@@ -76,9 +75,9 @@ class AdminProductTest extends TestCase
         $product = Product::latest('id')->first();
         $this->assertNotNull($product);
         $this->assertEquals('Тест продукт', $product->name);
-        $this->assertEquals(19.99, (float)$product->price);
-        $this->assertEquals(5, (int)$product->stock);
-        $this->assertEquals($category->id, (int)$product->category_id);
+        $this->assertEquals(19.99, (float) $product->price);
+        $this->assertEquals(5, (int) $product->stock);
+        $this->assertEquals($category->id, (int) $product->category_id);
 
         $this->assertNotNull($product->image);
         $this->assertTrue(Storage::disk('public')->exists($product->image));
@@ -120,8 +119,8 @@ class AdminProductTest extends TestCase
 
         $product->refresh();
         $this->assertEquals('Новo име', $product->name);
-        $this->assertEquals(29.50, (float)$product->price);
-        $this->assertEquals(7, (int)$product->stock);
+        $this->assertEquals(29.50, (float) $product->price);
+        $this->assertEquals(7, (int) $product->stock);
         $this->assertTrue(Storage::disk('public')->exists($product->image));
     }
 

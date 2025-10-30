@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\OrderItem;
 
 class Order extends Model
 {
-    
     protected $fillable = [
-       'user_id',
-       'status',
+        'user_id',
+        'status',
         'total_price',
         'address',
         'phone',
@@ -19,16 +16,17 @@ class Order extends Model
         'email',
     ];
 
-    //Преднадлеци на User
-    public function user(){
+    // Преднадлеци на User
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    //Поръчката има много order_items
+    // Поръчката има много order_items
 
-    public function items(){
+    public function items()
+    {
 
-        return $this-> hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class);
     }
-
 }

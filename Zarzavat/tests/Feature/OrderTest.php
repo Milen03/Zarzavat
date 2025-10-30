@@ -6,45 +6,45 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
- use RefreshDatabase;
+    use RefreshDatabase;
 
- public function test_checkout_redirects_when_cart_is_empty(){
+    public function test_checkout_redirects_when_cart_is_empty()
+    {
 
-    $response = $this->get(route('checkout'));
+        $response = $this->get(route('checkout'));
 
-    $response->assertRedirect(route('cart.index'));
-    $response->assertSessionHas('error','Количката е празна');
+        $response->assertRedirect(route('cart.index'));
+        $response->assertSessionHas('error', 'Количката е празна');
+    }
 
- }
- 
- public function test_checkout_shows_view_when_cart_has_items(){
+    public function test_checkout_shows_view_when_cart_has_items()
+    {
 
-    $product = Product::factory()->create(['price' => 10.50, 'stock' => 10]);
+        $product = Product::factory()->create(['price' => 10.50, 'stock' => 10]);
 
-    $response = $this
-    ->withSession([
-        'cart' =>[
-            $product->id=>[
-                'quantity' => 2,
-                'price' => $product->price,
-                'name' => $product->name,
-            ],
+        $response = $this
+            ->withSession([
+                'cart' => [
+                    $product->id => [
+                        'quantity' => 2,
+                        'price' => $product->price,
+                        'name' => $product->name,
+                    ],
 
-       ],
-    ])
-    ->get(route('checkout'));
+                ],
+            ])
+            ->get(route('checkout'));
 
-    $response->assertOk();
-    $response->assertViewIs('checkout.index');
-    $response->assertViewHas('cart');
- }
+        $response->assertOk();
+        $response->assertViewIs('checkout.index');
+        $response->assertViewHas('cart');
+    }
 
- public function test_place_order_as_guest_creates_order_items_and_clears_cart(): void
+    public function test_place_order_as_guest_creates_order_items_and_clears_cart(): void
     {
         $product = Product::factory()->create(['price' => 12.00, 'stock' => 7]);
 
@@ -143,7 +143,7 @@ class OrderTest extends TestCase
         $product->refresh();
         $this->assertEquals(2, $product->stock);
     }
-    
+
     public function test_place_order_redirects_to_cart_when_cart_empty(): void
     {
         $response = $this->post(route('checkout.place'), [
@@ -157,5 +157,4 @@ class OrderTest extends TestCase
         $this->assertDatabaseCount('orders', 0);
         $this->assertDatabaseCount('order_items', 0);
     }
-
 }

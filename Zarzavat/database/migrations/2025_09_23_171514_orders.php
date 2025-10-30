@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('email');
-            $table->string('phone');            
+            $table->string('phone');
             $table->text('address');
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');

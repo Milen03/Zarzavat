@@ -13,13 +13,15 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+
         return view('admin.products.index', compact('products'));
     }
 
-    // Форма за създаване 
+    // Форма за създаване
     public function create()
     {
         $categories = Category::all();
+
         return view('admin.products.create', compact('categories'));
     }
 
@@ -43,6 +45,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
+
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
@@ -66,6 +69,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
         return redirect()->route('admin.products.index')->with('success', 'Продуктът е изтрит.');
     }
 }

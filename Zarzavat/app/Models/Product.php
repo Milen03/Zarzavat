@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Models\OrderItem;
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'category_id',
         'name',
@@ -20,13 +18,15 @@ class Product extends Model
         'image',
     ];
 
-    //Преднадлеци на Category
-    public function category(){
+    // Преднадлеци на Category
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
     // Много OrederItem
-    public function orderItems(){
+    public function orderItems()
+    {
         return $this->hasMany(OrderItem::class);
     }
 }

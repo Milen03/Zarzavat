@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Profile;
 
 use App\Models\Order;
@@ -63,7 +62,7 @@ class ProfileOrderItemTest extends TestCase
         $this->assertEquals(3, $product->stock);
 
         $order->refresh();
-        $this->assertEquals(20, (float)$order->total_price);
+        $this->assertEquals(20, (float) $order->total_price);
     }
 
     public function test_user_cannot_modify_foreign_order(): void
@@ -116,10 +115,10 @@ class ProfileOrderItemTest extends TestCase
             ->assertSessionHas('success', 'Количеството е обновено успешно');
 
         $item->refresh();
-        $this->assertEquals(3, (int)$item->quantity);
+        $this->assertEquals(3, (int) $item->quantity);
 
         $order->refresh();
-        $this->assertEquals(21.0, (float)$order->total_price);
+        $this->assertEquals(21.0, (float) $order->total_price);
     }
 
     public function test_user_cannot_update_when_order_not_editable(): void
@@ -147,7 +146,7 @@ class ProfileOrderItemTest extends TestCase
             ->assertRedirect(route('profile.edit', $order->id))
             ->assertSessionHas('error', 'Може да редактирате само поръчки със статус "В очакване"');
 
-        $this->assertEquals(1, (int)$item->fresh()->quantity);
+        $this->assertEquals(1, (int) $item->fresh()->quantity);
     }
 
     public function test_user_can_delete_item_and_order_deleted_when_empty(): void

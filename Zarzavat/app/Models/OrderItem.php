@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Order;
-use App\Models\Product;
 
 class OrderItem extends Model
 {
@@ -15,13 +13,13 @@ class OrderItem extends Model
         'price',
     ];
 
-    //OrderItem принадлежи на поръчка
+    // OrderItem принадлежи на поръчка
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
 
-    //OrderItem принадлежи на продукт
+    // OrderItem принадлежи на продукт
     public function product()
     {
         return $this->belongsTo(Product::class);

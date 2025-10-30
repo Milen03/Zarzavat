@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Admin;
 
 use App\Models\Product;

@@ -28,9 +28,10 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
 
-        return[
+        return [
             'name.required' => 'Моля, въведи име.',
             'email.required' => 'Имейлът е задължителен.',
             'email.unique' => 'Този имейл вече е регистриран.',

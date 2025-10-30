@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Auth;
 
 use App\Models\User;

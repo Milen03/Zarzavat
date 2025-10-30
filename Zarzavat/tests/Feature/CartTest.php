@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature;
 
 use App\Models\Product;
@@ -61,7 +60,7 @@ class CartTest extends TestCase
                 ],
             ],
         ])->post(route('cart.update', $product->id), ['quantity' => 2.5])
-          ->assertRedirect(route('cart.index'));
+            ->assertRedirect(route('cart.index'));
 
         $cart = session('cart', []);
         $this->assertEquals(2.5, $cart[$product->id]['quantity']);
@@ -81,8 +80,8 @@ class CartTest extends TestCase
                 ],
             ],
         ])->post(route('cart.remove', $product->id))
-          ->assertRedirect(route('cart.index'))
-          ->assertSessionHas('success', 'Продуктът е премахнат!');
+            ->assertRedirect(route('cart.index'))
+            ->assertSessionHas('success', 'Продуктът е премахнат!');
 
         $cart = session('cart', []);
         $this->assertArrayNotHasKey($product->id, $cart);

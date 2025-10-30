@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Feature\Profile;
 
 use App\Models\Order;
@@ -42,11 +41,11 @@ class ProfileTest extends TestCase
         $this->withSession(['guest_orders' => [$o1->id => true, $o2->id => true]])
             ->get(route('profile.index'))
             ->assertOk()
-            ->assertSee((string)$o1->id)
-            ->assertSee((string)$o2->id);
+            ->assertSee((string) $o1->id)
+            ->assertSee((string) $o2->id);
     }
 
-     public function test_authenticated_index_shows_only_own_orders(): void
+    public function test_authenticated_index_shows_only_own_orders(): void
     {
         $owner = User::factory()->create();
         $other = User::factory()->create();
@@ -75,9 +74,10 @@ class ProfileTest extends TestCase
         $response->assertOk();
         $response->assertViewHas('orders', function ($orders) use ($ownOrder, $foreignOrder) {
             return $orders->contains('id', $ownOrder->id)
-                && !$orders->contains('id', $foreignOrder->id);
+                && ! $orders->contains('id', $foreignOrder->id);
         });
     }
+
     public function test_edit_redirects_with_error_when_order_not_accessible_for_guest(): void
     {
         $order = Order::create([

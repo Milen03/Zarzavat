@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -21,10 +20,10 @@ class ProductSeeder extends Seeder
             ['name' => 'Спанак', 'description' => 'Свеж спанак', 'price' => 2.00, 'stock' => 60, 'image' => 'spinach.jpg', 'category' => 'Зеленчуци'],
         ];
 
-        foreach($products as $prod){
+        foreach ($products as $prod) {
             $category = Category::where('name', $prod['category'])->first();
             Product::create([
-                 'name' => $prod['name'],
+                'name' => $prod['name'],
                 'description' => $prod['description'],
                 'price' => $prod['price'],
                 'stock' => $prod['stock'],

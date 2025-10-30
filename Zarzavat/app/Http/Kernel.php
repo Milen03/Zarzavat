@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // В Laravel 12 трябва да използваме друг формат за throttle
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
