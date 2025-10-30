@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="Project Standards">
+  <description>PSR-12 with project paths</description>
+  <rule ref="PSR12"/>
+
+  <!-- Allow snake_case test method names in tests -->
+  <rule ref="PSR1.Methods.CamelCapsMethodName">
+    <exclude-pattern>tests/*</exclude-pattern>
+  </rule>
+
+  <file>app</file>
+  <file>routes</file>
+  <file>database/factories</file>
+  <file>tests</file>
+
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>storage/*</exclude-pattern>
+  <exclude-pattern>public/*</exclude-pattern>
+</ruleset>

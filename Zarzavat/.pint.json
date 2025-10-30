@@ -1,0 +1,8 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "phpdoc_align": false,
+    "binary_operator_spaces": true,
+    "ordered_imports": { "sort_algorithm": "alpha" }
+  }
+}
