@@ -46,6 +46,13 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+        foreach ($order->items as $item) {
+            if ($item->product) {
+                $item->product->stock += $item->quantity;
+                $item->product->save();
+            }
+        }
+
         $order->delete();
 
         return redirect()->route('admin.orders.index')->with('success', 'Поръчката е изтрита.');
