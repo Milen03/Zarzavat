@@ -30,39 +30,17 @@
                 
                 <div class="flex items-center mb-4">
                     <span class="text-2xl font-bold text-green-600">{{ number_format($products->price, 2) }} лв/кг</span>
-                    <span class="ml-2 text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full">На склад</span>
+                   @if($products->stock <= 0)
+        <span class="ml-2 text-sm bg-red-100 text-red-800 py-1 px-2 rounded-full">Не е налично</span>
+    @else
+        <span class="ml-2 text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full">На склад</span>
+    @endif
                 </div>
                 
                 <p class="text-gray-600 mb-6 border-t border-b border-gray-100 py-4">{{ $products->description }}</p>
                 
                 <form action="{{ route('cart.add', $products->id) }}" method="POST">
                     @csrf
-                   {{-- <div class="flex items-center mb-4">
-    <label for="quantity" class="mr-2 font-medium">Количество:</label>
-    <div class="flex items-center border border-gray-300 rounded overflow-hidden">
-        <button type="button" onclick="decreaseQuantity()" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-            </svg>
-        </button>
-        <input 
-            type="number" 
-            id="quantity" 
-            name="quantity" 
-            value="1" 
-            min="0.5" 
-            step="0.5" 
-            class="w-12 py-1 text-center focus:outline-none focus:ring-1 focus:ring-green-500 border-0"
-        >
-        <button type="button" onclick="increaseQuantity()" class="px-2 py-1 bg-gray-100 hover:bg-gray-200 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-        </button>
-    </div>
-    <span class="ml-2">кг</span>
-</div> --}}
-                    
                     <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
