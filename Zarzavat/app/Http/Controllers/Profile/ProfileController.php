@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Service\OrderService;
+use App\Service\OrderServiceProfile;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     protected $orderService;
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderServiceProfile $orderService)
     {
         $this->orderService = $orderService;
     }

@@ -5,28 +5,28 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Service\OrderService;
+use App\Service\OrderServiceProfile;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
 {
-    protected $orderService;
+    protected $orderServiceProfile;
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderServiceProfile $orderServiceProfile)
     {
-        $this->orderService = $orderService;
+        $this->orderServiceProfile = $orderServiceProfile;
     }
 
     public function create($orderId)
     {
-        $order = $this->orderService->getOrder($orderId);
+        $order = $this->orderServiceProfile->getOrder($orderId);
 
         if (! $order) {
             return redirect()->route('profile.index')
                 ->with('error', 'Поръчката не е намерена или нямате достъп до нея');
         }
 
-        if (! $this->orderService->isOrderEditable($order)) {
+        if (! $this->orderServiceProfile->isOrderEditable($order)) {
             return redirect()->route('profile.edit', $order->id)
                 ->with('error', 'Може да добавяте продукти само към поръчки със статус "В очакване"');
         }
@@ -53,7 +53,7 @@ class OrderItemController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $order = $this->orderService->getOrder($orderId);
+        $order = $this->orderServiceProfile->getOrder($orderId);
 
         if (! $order) {
             return redirect()->route('profile.index')
@@ -61,7 +61,7 @@ class OrderItemController extends Controller
         }
 
         // Проверка дали поръчката може да се редактира
-        if (! $this->orderService->isOrderEditable($order)) {
+        if (! $this->orderServiceProfile->isOrderEditable($order)) {
             return redirect()->route('profile.edit', $order->id)
                 ->with('error', 'Може да добавяте продукти само към поръчки със статус "В очакване"');
         }
@@ -95,7 +95,7 @@ class OrderItemController extends Controller
         $product->save();
 
         // Преизчисляваме общата цена
-        $this->orderService->recalculateOrderTotal($order);
+        $this->orderServiceProfile->recalculateOrderTotal($order);
 
         return redirect()->route('profile.edit', $order->id)
             ->with('success', 'Продуктът е добавен успешно към поръчката');
@@ -111,13 +111,13 @@ class OrderItemController extends Controller
         $order = $item->order;
 
         // Проверка за достъп
-        if (! $this->orderService->hasAccessToOrder($order->id)) {
+        if (! $this->orderServiceProfile->hasAccessToOrder($order->id)) {
             return redirect()->route('profile.index')
                 ->with('error', 'Нямате достъп до този елемент');
         }
 
         // Проверка дали поръчката може да се редактира
-        if (! $this->orderService->isOrderEditable($order)) {
+        if (! $this->orderServiceProfile->isOrderEditable($order)) {
             return redirect()->route('profile.edit', $order->id)
                 ->with('error', 'Може да редактирате само поръчки със статус "В очакване"');
         }
@@ -127,7 +127,7 @@ class OrderItemController extends Controller
         $item->save();
 
         // Преизчисляваме общата цена
-        $this->orderService->recalculateOrderTotal($order);
+        $this->orderServiceProfile->recalculateOrderTotal($order);
 
         return redirect()->route('profile.edit', $order->id)
             ->with('success', 'Количеството е обновено успешно');
@@ -139,13 +139,13 @@ class OrderItemController extends Controller
         $order = $item->order;
 
         // Проверка за достъп
-        if (! $this->orderService->hasAccessToOrder($order->id)) {
+        if (! $this->orderServiceProfile->hasAccessToOrder($order->id)) {
             return redirect()->route('profile.index')
                 ->with('error', 'Нямате достъп до този елемент');
         }
 
         // Проверка дали поръчката може да се редактира
-        if (! $this->orderService->isOrderEditable($order)) {
+        if (! $this->orderServiceProfile->isOrderEditable($order)) {
             return redirect()->route('profile.edit', $order->id)
                 ->with('error', 'Може да редактирате само поръчки със статус "В очакване"');
         }
@@ -160,7 +160,7 @@ class OrderItemController extends Controller
         $item->delete();
 
         // Преизчисляваме общата цена
-        $this->orderService->recalculateOrderTotal($order);
+        $this->orderServiceProfile->recalculateOrderTotal($order);
 
         // Ако няма повече елементи, можем да пренасочим към списъка с поръчки
         if ($order->items()->count() === 0) {

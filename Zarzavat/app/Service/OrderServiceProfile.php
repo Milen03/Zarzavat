@@ -6,7 +6,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrderService
+class OrderServiceProfile
 {
     public function hasAccessToOrder($orderId)
     {
