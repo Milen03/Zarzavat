@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\View\View;
 
 class AdminContoller extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('admin.dashboard', [
             'productsCount' => Product::count(),

@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
     // Списък продукти
-    public function index()
+    public function index() : View
     {
         $products = Product::all();
 
@@ -18,7 +20,7 @@ class ProductController extends Controller
     }
 
     // Форма за създаване
-    public function create()
+    public function create() : View
     {
         $categories = Category::all();
 
@@ -26,7 +28,7 @@ class ProductController extends Controller
     }
 
     // Запис на нов продукт
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request) : RedirectResponse
     {
         $data = $request->validated();
 
@@ -42,7 +44,7 @@ class ProductController extends Controller
     }
 
     // Форма за редакция
-    public function edit(Product $product)
+    public function edit(Product $product) : View
     {
         $categories = Category::all();
 
@@ -50,7 +52,7 @@ class ProductController extends Controller
     }
 
     // Обновяване на продукта
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product) : RedirectResponse
     {
         $data = $request->validated();
 
@@ -66,7 +68,7 @@ class ProductController extends Controller
     }
 
     // Изтриване
-    public function destroy(Product $product)
+    public function destroy(Product $product) : RedirectResponse
     {
         $product->delete();
 

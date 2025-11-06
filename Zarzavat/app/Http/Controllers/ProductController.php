@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
     // Show all product
 
-    public function index()
+    public function index() : View
     {
         $products = Product::orderBy('created_at', 'desc')->paginate(12);
 
@@ -16,7 +17,7 @@ class ProductController extends Controller
     }
 
     // show one Product
-    public function show($id)
+    public function show(int $id) : View
     {
 
         $products = Product::findOrFail($id);

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class OrderController extends Controller
 {
     // all orders
-    public function index(Request $request)
+    public function index(Request $request) : View
     {
         $query = Order::latest();
 
@@ -23,7 +25,7 @@ class OrderController extends Controller
     }
 
     // details for current order
-    public function show(Order $order)
+    public function show(Order $order) : View
     {
 
         $order->load('user', 'items.product');
@@ -31,7 +33,7 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
-    public function updateStatus(Request $request, Order $order)
+    public function updateStatus(Request $request, Order $order) : RedirectResponse
     {
         $request->validate([
             'status' => 'required|in:pending,processing,completed,cancelled',
@@ -44,7 +46,7 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Статусът на поръчката е обновен успешно!');
     }
 
-    public function destroy(Order $order)
+    public function destroy(Order $order) : RedirectResponse
     {
         foreach ($order->items as $item) {
             if ($item->product) {

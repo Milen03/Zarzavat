@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CartContoller extends Controller
 {
-    public function index()
+    public function index() : View
     {
         $cart = session()->get('cart', []);
 
@@ -15,7 +17,7 @@ class CartContoller extends Controller
     }
 
     // add
-    public function add($id)
+    public function add(int $id): RedirectResponse
     {
         $product = Product::findOrFail($id);
 
@@ -39,7 +41,7 @@ class CartContoller extends Controller
 
     // update
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $cart = session()->get('cart', []);
 
@@ -52,7 +54,7 @@ class CartContoller extends Controller
     }
 
     // remove
-    public function remove(Request $request, $id)
+    public function remove(Request $request, int $id): RedirectResponse
     {
         $cart = session()->get('cart', []);
 
