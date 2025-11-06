@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class OrderServiceProfile
 {
-    public function hasAccessToOrder($orderId)
+    public function hasAccessToOrder(int $orderId): bool
     {
         if (Auth::check()) {
             return Order::where('id', $orderId)
@@ -24,7 +24,7 @@ class OrderServiceProfile
     /**
      * Взимане на поръчка с проверка за достъп
      */
-    public function getOrder($orderId, $withRelations = [])
+    public function getOrder(int $orderId, array $withRelations = []): ?Order
     {
         if (Auth::check()) {
             // За регистрирани потребители
@@ -52,7 +52,7 @@ class OrderServiceProfile
     /**
      * Преизчисляване на общата цена на поръчката
      */
-    public function recalculateOrderTotal(Order $order)
+    public function recalculateOrderTotal(Order $order): Order
     {
         $totalPrice = $order->items()->sum(DB::raw('price * quantity'));
         $order->total_price = $totalPrice;
@@ -64,7 +64,7 @@ class OrderServiceProfile
     /**
      * Проверка дали поръчката може да бъде редактирана
      */
-    public function isOrderEditable(Order $order)
+    public function isOrderEditable(Order $order): bool
     {
         return $order->status === 'pending';
     }

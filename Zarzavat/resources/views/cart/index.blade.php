@@ -124,10 +124,9 @@
     </div>
 </div>
 @endsection
-
-@section('scripts')
+@push('scripts')
 <script>
-    function decreaseQuantity(id) {
+    window.decreaseQuantity = function(id) {
         const input = document.getElementById('quantity-' + id);
         const currentValue = parseFloat(input.value) || 0;
         if (currentValue > 0.5) {
@@ -135,12 +134,12 @@
             input.form.submit();
         }
     }
-    
-    function increaseQuantity(id) {
+
+    window.increaseQuantity = function(id) {
         const input = document.getElementById('quantity-' + id);
         const currentValue = parseFloat(input.value) || 0;
         input.value = (currentValue + 0.5).toFixed(1);
         input.form.submit();
     }
 </script>
-@endsection
+@endpush

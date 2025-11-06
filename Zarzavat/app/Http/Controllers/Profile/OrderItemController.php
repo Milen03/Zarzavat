@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Service\OrderServiceProfile;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class OrderItemController extends Controller
 {
@@ -17,7 +18,7 @@ class OrderItemController extends Controller
         $this->orderServiceProfile = $orderServiceProfile;
     }
 
-    public function create($orderId)
+    public function create(int $orderId)
     {
         $order = $this->orderServiceProfile->getOrder($orderId);
 
@@ -46,7 +47,7 @@ class OrderItemController extends Controller
         return view('profile.add-item', compact('order', 'products'));
     }
 
-    public function store(Request $request, $orderId)
+    public function store(Request $request, int $orderId): RedirectResponse
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -101,7 +102,7 @@ class OrderItemController extends Controller
             ->with('success', 'Продуктът е добавен успешно към поръчката');
     }
 
-    public function update(Request $request, $itemId)
+    public function update(Request $request, int $itemId) : RedirectResponse
     {
         $request->validate([
             'quantity' => 'required|numeric|min:1',
@@ -133,7 +134,7 @@ class OrderItemController extends Controller
             ->with('success', 'Количеството е обновено успешно');
     }
 
-    public function destroy($itemId)
+    public function destroy(int $itemId): RedirectResponse
     {
         $item = OrderItem::findOrFail($itemId);
         $order = $item->order;

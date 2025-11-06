@@ -50,6 +50,7 @@
     <!-- MAIN CONTENT -->
     <main class="flex-grow w-full">
         @yield('content')
+        @stack('scripts')
     </main>
     
     <!-- FOOTER -->

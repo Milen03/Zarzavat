@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Service\OrderServiceProfile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
@@ -16,7 +18,7 @@ class ProfileController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function index()
+    public function index(): View
     {
         if (Auth::check()) {
             // За логнати потребители
@@ -40,7 +42,7 @@ class ProfileController extends Controller
         return view('profile.index', compact('orders'));
     }
 
-    public function edit($orderId)
+    public function edit(int $orderId): View|RedirectResponse
     {
         $order = $this->orderService->getOrder($orderId, ['items.product']);
 
