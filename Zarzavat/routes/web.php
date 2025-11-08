@@ -31,11 +31,15 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Продукти
     Route::resource('products', AdminProductController::class);
 
-    // Orders
+    // Поръчки
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update.status');
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+
+    // Архив (soft deletes)
+    Route::patch('/orders/{id}/restore', [AdminOrderController::class, 'restore'])->name('orders.restore');
+    Route::delete('/orders/{id}/force', [AdminOrderController::class, 'forceDelete'])->name('orders.force');
 });
 
 // products

@@ -13,13 +13,17 @@ class OrderController extends Controller
     // all orders
     public function index(Request $request) : View
     {
-        $query = Order::latest();
+        $query = Order::query()->latest();
 
-        if ($request->has('status') && $request->status !== '') {
-            $query->where('status', $request->status);
+        if ($request->filled('status')) {
+            $query->where('status', (string) $request->input('status'));
         }
 
-        $orders = $query->get();
+        if ($request->boolean('archived')) {
+            $query->onlyTrashed();
+        }
+
+        $orders = $query->paginate(15);
 
         return view('admin.orders.index', compact('orders'));
     }
@@ -48,15 +52,26 @@ class OrderController extends Controller
 
     public function destroy(Order $order) : RedirectResponse
     {
-        foreach ($order->items as $item) {
-            if ($item->product) {
-                $item->product->stock += $item->quantity;
-                $item->product->save();
-            }
-        }
-
-        $order->delete();
-
-        return redirect()->route('admin.orders.index')->with('success', 'Поръчката е изтрита.');
+        $order->delete(); // soft delete
+        return redirect()->route('admin.orders.index')->with('success', 'Поръчката е архивирана.');
     }
+
+    public function restore(int $id): RedirectResponse
+    {
+        $order = Order::onlyTrashed()->findOrFail($id);
+        $order->restore();
+
+        return redirect()->route('admin.orders.index', ['archived' => 1])
+            ->with('success', 'Поръчката е възстановена.');
+    }
+
+    public function forceDelete(int $id): RedirectResponse
+    {
+        $order = Order::onlyTrashed()->findOrFail($id);
+        $order->forceDelete();
+
+        return redirect()->route('admin.orders.index', ['archived' => 1])
+            ->with('success', 'Поръчката е окончателно изтрита.');
+    }
+
 }
