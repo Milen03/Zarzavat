@@ -84,6 +84,6 @@ class CartTest extends TestCase
             ->assertSessionHas('success', 'Продуктът е премахнат!');
 
         $cart = session('cart', []);
-        $this->assertArrayNotHasKey($product->id, $cart);
+        $this->assertFalse(array_key_exists($product->id, $cart));
     }
 }

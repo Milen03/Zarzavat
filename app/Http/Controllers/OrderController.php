@@ -57,6 +57,7 @@ class OrderController extends Controller
                 $product->stock -= $item['quantity'];
                 $product->save();
             }
+
         }
 
         if (! Auth::check()) {
