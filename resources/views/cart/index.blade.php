@@ -155,9 +155,9 @@
             </div>
         @else
             <div class="bg-white rounded-xl shadow-md overflow-hidden p-8 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                {{-- <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13Л5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0а2 2 0 100 4 2 2 0 000-4zm-8 2а2 2 0 11-4 0 2 2 0 014 0з" />
-                </svg>
+                </svg> --}}
                 <h2 class="text-xl font-semibold mb-2">Вашата количка е празна</h2>
                 <p class="text-gray-600 mb-6">Разгледайте нашите продукти и добавете нещо във вашата количка.</p>
                 <a href="{{ route('products.index') }}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium inline-block transition-colors duration-200">
