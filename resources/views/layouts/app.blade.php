@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зеленчуков магазин</title>
+    {{-- <link rel="stylesheet" href="/css/app.css">
+<script src="/js/app.js"></script> --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full m-0 p-0 flex flex-col bg-gray-100 text-gray-900">
