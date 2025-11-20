@@ -14,6 +14,7 @@ use App\Http\Controllers\Profile\OrderItemController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 // Auth
 Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
@@ -71,3 +72,24 @@ Route::prefix('profile')->group(function () {
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
+
+// TEMPORARY HEALTH ENDPOINT FOR PRODUCTION DEBUG (REMOVE AFTER FIX)
+Route::get('/health', function () {
+    try {
+        $pdo = DB::connection()->getPdo();
+        $userRow = DB::select('select current_user');
+        return response()->json([
+            'status' => 'ok',
+            'env' => config('app.env'),
+            'debug' => config('app.debug'),
+            'db' => DB::connection()->getDatabaseName(),
+            'db_user' => $userRow[0]->current_user ?? null,
+            'time' => now()->toISOString(),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+})->name('health');
