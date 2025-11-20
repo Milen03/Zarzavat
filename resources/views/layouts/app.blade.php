@@ -5,9 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зеленчуков магазин</title>
-    {{-- <link rel="stylesheet" href="/css/app.css">
-<script src="/js/app.js"></script> --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Vite assets: fallback to prebuilt static files if manifest is missing (production build not executed) --}}
+    @php($viteManifest = public_path('build/manifest.json'))
+    @if(file_exists($viteManifest))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    @endif
 </head>
 <body class="h-full m-0 p-0 flex flex-col bg-gray-100 text-gray-900">
 
