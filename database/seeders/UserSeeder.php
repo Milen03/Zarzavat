@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Idempotent admin user (don't overwrite existing password if user already exists)
+        // Admin user idempotent
         User::firstOrCreate(
             ['email' => 'milen.atanasovv03@gmail.com'],
             [
@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        // Idempotent client user
+        // Client user idempotent
         User::firstOrCreate(
             ['email' => 'geri07@gmail.com'],
             [
