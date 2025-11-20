@@ -21,15 +21,20 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $prod) {
-            $category = Category::where('name', $prod['category'])->first();
-            Product::create([
-                'name' => $prod['name'],
-                'description' => $prod['description'],
-                'price' => $prod['price'],
-                'stock' => $prod['stock'],
-                'image' => $prod['image'],
-                'category_id' => $category->id,
-            ]);
+            // Ensure category exists (idempotent)
+            $category = Category::firstOrCreate(['name' => $prod['category']]);
+
+            // Avoid duplicate products by name; don't overwrite existing data on repeat runs
+            Product::firstOrCreate(
+                ['name' => $prod['name']],
+                [
+                    'description' => $prod['description'],
+                    'price' => $prod['price'],
+                    'stock' => $prod['stock'],
+                    'image' => $prod['image'],
+                    'category_id' => $category->id,
+                ]
+            );
         }
     }
 }
