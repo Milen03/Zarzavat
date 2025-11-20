@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Service\OrderService;
+use App\Service\OrderServiceProfile;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,8 +12,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(OrderService::class, function ($app) {
-            return new OrderService();
+        $this->app->singleton(OrderServiceProfile::class, function ($app) {
+            return new OrderServiceProfile();
         });
     }
 
