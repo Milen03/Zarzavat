@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin user idempotent
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'milen.atanasovv03@gmail.com'],
             [
                 'name' => 'Admin',
