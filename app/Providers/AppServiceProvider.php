@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Service\OrderServiceProfile;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Artisan;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Ensure public/storage symlink exists in all environments
+        try {
+            $publicStorage = public_path('storage');
+            if (!is_link($publicStorage) && !file_exists($publicStorage)) {
+                Artisan::call('storage:link');
+            }
+        } catch (\Throwable $e) {
+            // no-op in case of restricted permissions
+        }
     }
 }

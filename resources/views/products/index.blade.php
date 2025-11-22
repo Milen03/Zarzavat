@@ -9,10 +9,9 @@
         @foreach ($products as $product)
             <div class="bg-white border rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <img 
-                    src="{{ asset('storage/' . $product->image) }}" 
+                    src="{{ $product->image_url }}" 
                     alt="{{ $product->name }}" 
                     class="w-full h-48 object-cover"
-                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'%23d1d5db\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'22\' fill=\'%236b7280\'>Продукт</text></svg>'"
                 >
                 <div class="p-4">
                     <h2 class="text-xl font-bold text-gray-800 mb-2">{{ $product->name }}</h2>
