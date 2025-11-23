@@ -40,19 +40,28 @@ class Product extends Model
             return asset('images/placeholder.svg');
         }
 
-        $candidates = [];
-        // If value already includes a folder
-        if (str_contains($raw, '/')) {
-            $candidates[] = ltrim($raw, '/');
-        } else {
-            // Try in root and in products/ subdir
-            $candidates[] = ltrim($raw, '/');
-            $candidates[] = 'products/' . ltrim($raw, '/');
+        $normalized = ltrim($raw, '/');
+        $variants = [];
+
+        // Provided value as-is
+        $variants[] = $normalized;
+        // Common products/ prefix (if not already)
+        if (!str_contains($normalized, '/')) {
+            $variants[] = 'products/' . $normalized;
         }
 
-        foreach ($candidates as $path) {
-            if (Storage::disk('public')->exists($path)) {
-                return asset('storage/' . $path);
+        // Public disk lookup
+        foreach ($variants as $candidate) {
+            if (Storage::disk('public')->exists($candidate)) {
+                return asset('storage/' . $candidate);
+            }
+        }
+
+        // Fallback: check direct public/products (committed assets)
+        foreach ($variants as $candidate) {
+            $publicPath = public_path($candidate);
+            if (file_exists($publicPath)) {
+                return asset($candidate);
             }
         }
 
