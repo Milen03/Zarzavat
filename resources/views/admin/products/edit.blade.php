@@ -41,17 +41,17 @@
     </div>
 
     @if($product->image)
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Текуща снимка:</label>
-                        <div class="flex items-center space-x-4">
-                       <img src="{{ Storage::disk('public')->url($product->image) }}" 
-                                 class="h-24 w-24 object-cover rounded-lg border border-gray-300">
-                            <div class="text-sm text-gray-600">
-                                <p>Ако качиш нова снимка, тази ще бъде заменена</p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+    <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Текуща снимка:</label>
+        <div class="flex items-center space-x-4">
+            <img src="{{ $product->image_url }}"
+                class="h-24 w-24 object-cover rounded-lg border border-gray-300">
+            <div class="text-sm text-gray-600">
+                <p>Ако качиш нова снимка, тази ще бъде заменена</p>
+            </div>
+        </div>
+    </div>
+    @endif
 
                  <div>
                     <label for="image" class="block text-sm font-medium text-gray-700 mb-2">
