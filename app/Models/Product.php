@@ -35,36 +35,11 @@ class Product extends Model
 
     public function getImageUrlAttribute(): string
     {
-        $raw = (string) ($this->image ?? '');
-        if ($raw === '') {
+        if (!$this->image) {
             return asset('images/placeholder.svg');
         }
-
-        $normalized = ltrim($raw, '/');
-        $variants = [];
-
-        // Provided value as-is
-        $variants[] = $normalized;
-        // Common products/ prefix (if not already)
-        if (!str_contains($normalized, '/')) {
-            $variants[] = 'products/' . $normalized;
-        }
-
-        // Public disk lookup
-        foreach ($variants as $candidate) {
-            if (Storage::disk('public')->exists($candidate)) {
-                return asset('storage/' . $candidate);
-            }
-        }
-
-        // Fallback: check direct public/products (committed assets)
-        foreach ($variants as $candidate) {
-            $publicPath = public_path($candidate);
-            if (file_exists($publicPath)) {
-                return asset($candidate);
-            }
-        }
-
-        return asset('images/placeholder.svg');
+        // Simple original behavior: use configured public disk URL
+        // Use public storage symlink path; bucket layer maps /storage/*
+        return asset('storage/' . ltrim($this->image, '/'));
     }
 }
