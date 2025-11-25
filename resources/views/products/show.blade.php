@@ -8,8 +8,8 @@
             <!-- Лява колона - Снимка -->
             <div class="md:w-1/2">
                 <img 
-                    src="{{ asset('storage/' . $product->image) }}" 
-                    alt="{{ $product->name }}" 
+                    src="{{ asset('storage/' . $products->image) }}" 
+                    alt="{{ $products->name }}" 
                     class="w-full h-96 object-cover"
                 >
             </div>

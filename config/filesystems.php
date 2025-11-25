@@ -38,44 +38,27 @@ return [
             'report' => false,
         ],
 
-        // PUBLIC disk serves local files in dev and switches to the Laravel Cloud bucket in production
-        'public' => env('LARAVEL_CLOUD_BUCKET') ? [
+        'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'cloud' => [
             'driver' => 's3',
             'key' => env('LARAVEL_CLOUD_ACCESS_KEY_ID'),
             'secret' => env('LARAVEL_CLOUD_ACCESS_KEY_SECRET'),
-            'region' => env('LARAVEL_CLOUD_DEFAULT_REGION', 'auto'),
+            'region' => env('LARAVEL_CLOUD_DEFAULT_REGION'),
             'bucket' => env('LARAVEL_CLOUD_BUCKET'),
             'endpoint' => env('LARAVEL_CLOUD_ENDPOINT'),
-            'use_path_style_endpoint' => env('LARAVEL_CLOUD_USE_PATH_STYLE_ENDPOINT', false),
-            'url' => env('LARAVEL_CLOUD_URL'),
+            'use_path_style_endpoint' => false,
             'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
-        ] : [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
-            'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
-        ],
-
-        // Optional legacy S3 disk for custom integrations
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
-            'report' => false,
         ],
 
     ],
-
 
     /*
     |--------------------------------------------------------------------------
