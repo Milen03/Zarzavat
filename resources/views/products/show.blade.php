@@ -8,7 +8,7 @@
             <!-- Лява колона - Снимка -->
             <div class="md:w-1/2">
                 <img 
-                    src="{{ asset('storage/' . $products->image) }}" 
+                    src="{{  Storage::url($products->image) }}" 
                     alt="{{ $products->name }}" 
                     class="w-full h-96 object-cover"
                 >
