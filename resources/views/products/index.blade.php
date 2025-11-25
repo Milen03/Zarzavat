@@ -9,7 +9,7 @@
         @foreach ($products as $product)
             <div class="bg-white border rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <img 
-                    src="{{ $product->image_url }}" 
+                    src="{{ asset('storage/' . $product->image) }}" 
                     alt="{{ $product->name }}" 
                     class="w-full h-48 object-cover"
                 >
