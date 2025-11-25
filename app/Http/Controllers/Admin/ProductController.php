@@ -58,7 +58,7 @@ class ProductController extends Controller
 
         // Обработка на изображението
         if (request()->hasFile('image')) {
-            $imagePath = request()->file('image')->store('products');
+            $imagePath = request()->file('image')->store('products', 'public');
             $data['image'] = $imagePath;
         }
 
