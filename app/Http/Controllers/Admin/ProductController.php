@@ -31,10 +31,11 @@ class ProductController extends Controller
     public function store(ProductRequest $request) : RedirectResponse
     {
         $data = $request->validated();
+        $disk = config('filesystems.default');
 
         // Обработка на изображението
-        if (request()->hasFile('image')) {
-            $imagePath = request()->file('image')->store('products');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', $disk);
             $data['image'] = $imagePath;
         }
 
@@ -55,10 +56,11 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product) : RedirectResponse
     {
         $data = $request->validated();
+        $disk = config('filesystems.default');
 
         // Обработка на изображението
-        if (request()->hasFile('image')) {
-            $imagePath = request()->file('image')->store('products');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', $disk);
             $data['image'] = $imagePath;
         }
 

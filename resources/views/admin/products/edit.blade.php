@@ -44,7 +44,7 @@
     <div class="mb-6">
         <label class="block text-sm font-medium text-gray-700 mb-2">Текуща снимка:</label>
         <div class="flex items-center space-x-4">
-            <img src="{{ asset('storage/' . $product->image) }}" alt="Текуща снимка"
+            <img src="{{ Storage::url($product->image) }}" alt="Текуща снимка"
                 class="h-24 w-24 object-cover rounded-lg border border-gray-300">
             <div class="text-sm text-gray-600">
                 <p>Ако качиш нова снимка, тази ще бъде заменена</p>
