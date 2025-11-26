@@ -33,20 +33,5 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    // public function getImageUrlAttribute(): string
-    // {
-    //     if (!$this->image) {
-    //         return asset('images/placeholder.svg');
-    //     }
 
-    //     $path = ltrim($this->image, '/');
-    //     /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-    //     $disk = Storage::disk('public');
-
-    //     if ($disk->exists($path)) {
-    //         return $disk->url($path);
-    //     }
-
-    //     return asset('images/placeholder.svg');
-    // }
- }
+}
