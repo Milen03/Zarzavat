@@ -62,7 +62,7 @@ return [
                     ? rtrim($endpoint, '/') . '/' . $bucket
                     : null;
             }),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
+            'use_path_style_endpoint' => true,
             'visibility' => 'public',
         ],
 
