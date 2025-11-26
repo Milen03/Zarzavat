@@ -48,16 +48,23 @@ return [
         ],
 
         'zarzavat' => [
-    'driver' => 's3',
-    'key' => env('AWS_ACCESS_KEY_ID'),
-    'secret' => env('AWS_SECRET_ACCESS_KEY'),
-    'region' => env('AWS_DEFAULT_REGION'),
-    'bucket' => env('AWS_BUCKET'),
-    'endpoint' => env('AWS_ENDPOINT'),
-    'url' => env('AWS_URL'), // може да е null
-    'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-    'visibility' => 'public',
-],
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET', null),
+            'endpoint' => env('AWS_ENDPOINT', null),
+            'url' => env('AWS_URL') ?: value(function () {
+                $endpoint = env('AWS_ENDPOINT', null);
+                $bucket = env('AWS_BUCKET', null);
+
+                return $endpoint && $bucket
+                    ? rtrim($endpoint, '/') . '/' . $bucket
+                    : null;
+            }),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
+            'visibility' => 'public',
+        ],
 
     ],
 
